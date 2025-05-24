@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Water Tracker - Gallons</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h2>Track Your Daily Water Usage (Gallons)</h2>
+    <form id="usageForm">
+      <div class="mb-3">
+        <label for="shower" class="form-label">Minutes Showering (2.1 gal/min)</label>
+        <input type="number" class="form-control" id="shower">
+      </div>
+      <div class="mb-3">
+        <label for="flushes" class="form-label">Toilet Flushes (1.6 gal/flush)</label>
+        <input type="number" class="form-control" id="flushes">
+      </div>
+      <div class="mb-3">
+        <label for="brushing" class="form-label">Minutes Tap Running While Brushing (1 gal/min)</label>
+        <input type="number" class="form-control" id="brushing">
+      </div>
+      <div class="mb-3">
+        <label for="dishwashing" class="form-label">Dishwashing (Minutes Tap Was Running, 2.5 gal/min)</label>
+        <input type="number" class="form-control" id="dishwashing">
+      </div>
+      <div class="mb-3">
+        <label for="laundry" class="form-label">Laundry Loads (25 gal/load)</label>
+        <input type="number" class="form-control" id="laundry">
+      </div>
+      <button type="submit" class="btn btn-primary">Calculate Usage</button>
+    </form>
+    <h4 id="result" class="mt-3"></h4>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
