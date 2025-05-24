@@ -5,26 +5,79 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Make Your Water Pledge</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBMA-e-08F8DLkzSwPmurSkIA4gMxOfQbY",
+      authDomain: "waterconservationapp.firebaseapp.com",
+      projectId: "waterconservationapp",
+      storageBucket: "waterconservationapp.firebasestorage.app",
+      messagingSenderId: "801376059116",
+      appId: "1:801376059116:web:4e0df339ff9eb9fbd9efc9",
+      measurementId: "G-PC2F60CL4E"
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore(app);
+  </script>
 </head>
 <body>
   <div class="container mt-5">
     <h2>Make Your Water Pledge</h2>
     <p class="lead">Join others taking steps to reduce water usage and protect our future!</p>
-    <form>
+
+    <form id="pledgeForm">
       <div class="mb-3">
         <label for="email" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="email" placeholder="name@example.com">
+        <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
       </div>
       <div class="mb-3">
         <label for="name" class="form-label">Your Name</label>
-        <input type="text" class="form-control" id="name" placeholder="Jane Doe">
+        <input type="text" class="form-control" id="name" placeholder="Jane Doe" required>
       </div>
       <div class="mb-3">
         <label for="pledge" class="form-label">How will you conserve water?</label>
-        <textarea class="form-control" id="pledge" rows="3" placeholder="E.g., I will take shorter showers and fix my leaky faucet."></textarea>
+        <textarea class="form-control" id="pledge" rows="3" placeholder="E.g., I will take shorter showers and fix my leaky faucet." required></textarea>
       </div>
       <button type="submit" class="btn btn-success">Submit Pledge</button>
     </form>
+
+    <div id="thankYouMessage" class="alert alert-success mt-3" style="display:none;">
+      🌍 Thank you for making your pledge! Your commitment is now logged.
+    </div>
   </div>
+
+  <script>
+    const pledgeForm = document.getElementById('pledgeForm');
+    const thankYouMessage = document.getElementById('thankYouMessage');
+
+    pledgeForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById('email').value.trim();
+      const name = document.getElementById('name').value.trim();
+      const pledge = document.getElementById('pledge').value.trim();
+
+      if (!email || !name || !pledge) return;
+
+      try {
+        await db.collection('pledges').add({
+          name,
+          email,
+          pledge,
+          timestamp: new Date()
+        });
+
+        pledgeForm.reset();
+        thankYouMessage.style.display = 'block';
+      } catch (error) {
+        alert("Failed to submit. Please check your Firebase setup.");
+        console.error("Error writing document: ", error);
+      }
+    });
+  </script>
 </body>
 </html>
